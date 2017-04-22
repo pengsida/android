@@ -60,13 +60,13 @@ public class MailDetailActivity extends AppCompatActivity
     private String contentType;
     private MyMessage myMessage;
     private String dirName;
+    private boolean text_or_html;
 
     private class GetMessages extends AsyncTask<Void, Void, Void>
     {
         @Override
         protected Void doInBackground(Void... params)
         {
-
             try
             {
                 myMessage.openInBoxFolder();
@@ -74,7 +74,9 @@ public class MailDetailActivity extends AppCompatActivity
                 fromAddress = messageResolver.getFrom();
                 subject = messageResolver.getSubject();
                 contentType = messageResolver.getContentType();
-                if (contentType.contains("multipart"))
+                if (contentType.contains("text/plain") || contentType.contains("text/html"))
+                    content = myMessage.getMessage().getContent().toString();
+                else if (contentType.contains("multipart/related"))
                 {
                     File externalFilesDir = MailDetailActivity.this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
                     if(externalFilesDir == null)
@@ -93,13 +95,29 @@ public class MailDetailActivity extends AppCompatActivity
                         content = content.substring(0, start) + content.substring(end+8);
                     }
 
-//                    if (contentType.contains("multipart/related"))
-//                    {
-//                        messageResolver.saveDisposition(dirName);
-//                    }
+                    text_or_html = false;
                 }
-                if (content == null || content.equals(""))
-                    content = messageResolver.getPlainContent();
+                else if (contentType.contains("multipart"))
+                {
+                    content = messageResolver.getHtmlContent("NULL");
+                    if (content == null || content.equals(""))
+                    {
+                        content = messageResolver.getPlainContent();
+                        text_or_html = true;
+                    }
+                    else
+                    {
+                        if (content.contains("<style>"))
+                        {
+                            int start = content.indexOf("<style>");
+                            int end = content.indexOf("</style>");
+                            content = content.substring(0, start) + content.substring(end+8);
+                        }
+                        text_or_html = false;
+                    }
+                }
+                else
+                    content = "";
             }
             catch (MessagingException e)
             {
@@ -127,8 +145,15 @@ public class MailDetailActivity extends AppCompatActivity
                     contentView.setText(Html.fromHtml(content, imageGetter, null));
                 }
                 else
-                    contentView.setText(Html.fromHtml(content));
+                {
+                    if (text_or_html)
+                        contentView.setText(content);
+                    else
+                        contentView.setText(Html.fromHtml(content));
+                }
             }
+            else if (contentType.contains("text/plain"))
+                contentView.setText(Html.fromHtml(content));
             else
                 contentView.setText(content);
         }
@@ -178,7 +203,7 @@ public class MailDetailActivity extends AppCompatActivity
 
         // data
         // ===============
-        myMessage = MyMessage.get(new MailReceiverInfo());
+        myMessage = MyMessage.get();
         new GetMessages().execute();
 
 

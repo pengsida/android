@@ -25,10 +25,13 @@ public class HelloWorld {
         Session session = Session.getDefaultInstance(new Properties());
 
         try {
-            Store store = session.getStore("imap");
+//            Store store = session.getStore("imap");
 //            Transport store = session.getTransport("smtp");
-            store.connect("imap.zju.edu.cn", 110, "pengsida@zju.edu.cn", "zdpsd19961201");
-//            store.connect("smtp.qq.com", 587, "291277604@qq.com", "p1111111");
+//            store.connect("imap.zju.edu.cn", 110, "pengsida@zju.edu.cn", "***");
+//            store.connect("smtp.qq.com", 587, "291277604@qq.com", "***");
+//            store.connect("imap.qq.com", 143, "291277604@qq.com", "***");
+            Store store = session.getStore("pop3");
+            store.connect("pop.qq.com", 995, "291277604@qq.com", "***");
             System.out.printf("right");
         }
         catch (AuthenticationFailedException ea)

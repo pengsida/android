@@ -214,12 +214,11 @@ public class MailReceiver
     public static void main(String[] args) throws Exception
     {
         MailReceiverInfo receiverInfo = new MailReceiverInfo();
-        receiverInfo.setMailServerHost("pop3.zju.edu.cn");
-//        receiverInfo.setMailServerHost("imap.zju.edu.cn");
-//        receiverInfo.setProtocal("imap");
-//        receiverInfo.setMailServerPort(143);
-        receiverInfo.setUserName("pengsida@zju.edu.cn");
-        receiverInfo.setPassword("zdpsd19961201");
+        receiverInfo.setMailServerHost("imap.qq.com");
+        receiverInfo.setProtocal("imap");
+        receiverInfo.setMailServerPort(143);
+        receiverInfo.setUserName("291277604@qq.com");
+        receiverInfo.setPassword("***");
         MailReceiver receiver = new MailReceiver(receiverInfo);
         receiver.receiveNewestMail();
     }

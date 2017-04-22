@@ -44,7 +44,7 @@ public class MailListActivity extends AppCompatActivity
     Map<String, String> keys = new HashMap<String, String>();
     private static final String mailboxKey = "MAILBOX";
     private static final String passwordKey = "PASSWD";
-    private static final String smtpServerKey = "SMTP";
+    private static final String pop3ServerKey = "POP3";
 
     // widget
     // ===============
@@ -56,6 +56,7 @@ public class MailListActivity extends AppCompatActivity
     Message[] messages;
     private String mailbox;
     private String passwd;
+    private String pop3Server;
     private MyMessage myMessage;
 
     private class OpenMailReceiver extends AsyncTask<Void, Void, Void>
@@ -195,7 +196,12 @@ public class MailListActivity extends AppCompatActivity
         // data
         // ===============
         MailReceiverInfo receiverInfo = new MailReceiverInfo();
-        receiverInfo.setMailServerHost("pop3.zju.edu.cn");
+        receiverInfo.setMailServerHost(pop3Server);
+        if (pop3Server.contains("imap"))
+        {
+            receiverInfo.setProtocal("imap");
+            receiverInfo.setMailServerPort(143);
+        }
         receiverInfo.setUserName(mailbox);
         receiverInfo.setPassword(passwd);
         myMessage = MyMessage.get(receiverInfo);
@@ -215,6 +221,7 @@ public class MailListActivity extends AppCompatActivity
         Intent i = new Intent(context, MailListActivity.class);
         i.putExtra(mailboxKey, keys.get("mailbox"));
         i.putExtra(passwordKey, keys.get("passwd"));
+        i.putExtra(pop3ServerKey, keys.get("pop3"));
         return i;
     }
 
@@ -222,5 +229,6 @@ public class MailListActivity extends AppCompatActivity
     {
         mailbox = getIntent().getStringExtra(mailboxKey);
         passwd = getIntent().getStringExtra(passwordKey);
+        pop3Server = getIntent().getStringExtra(pop3ServerKey);
     }
 }

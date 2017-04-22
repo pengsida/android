@@ -86,8 +86,10 @@ public class MessageResolver
 
         if (disposition != null && wantedContentType.equals("HTML"))
         {
-            String filename = getAttachFileName(dirName, part);
-            filename = dirName + "/test.jpg";
+            if (dirName.equals("NULL"))
+                return "";
+//            String filename = getAttachFileName(dirName, part);
+            String filename = dirName + "/test.jpg";
             saveFile(part, filename);
             return "";
         }

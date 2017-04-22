@@ -164,13 +164,7 @@ public class LoginActivity extends AppCompatActivity
                     return;
                 }
 
-//                new Thread(verifyPasswd).start();
                 new VerifyPasswd().execute();
-
-//                Map<String, String> keys = new HashMap<String, String>();
-//                putIntentData(keys);
-//                Intent i = MainActivity.newIntent(LoginActivity.this, keys);
-//                startActivity(i);
             }
         });
 
@@ -188,30 +182,6 @@ public class LoginActivity extends AppCompatActivity
         keys.put("mailbox", mailbox);
         keys.put("passwd", passwd);
     }
-
-    Runnable verifyPasswd = new Runnable() {
-        @Override
-        public void run() {
-            Looper.prepare();
-
-            Session session = Session.getDefaultInstance(new Properties());
-
-            try
-            {
-                Store store = session.getStore("pop3");
-                store.connect("smtp.zju.edu.cn", mailbox, passwd);
-                Log.d("AUTHEN", "right");
-            }
-            catch (AuthenticationFailedException ea)
-            {
-                Log.d("AUTHEN", "authenticate failed");
-            }
-            catch (MessagingException em)
-            {
-                Log.d("AUTHEN", "wrong");
-            }
-        }
-    };
 
     private String resolve(String mailbox)
     {

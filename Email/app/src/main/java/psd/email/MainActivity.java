@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity
     private String mailbox;
     private String passwd;
     private Map<String, String> smtpServerList;
+    private Map<String, String> pop3ServerList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -46,6 +47,10 @@ public class MainActivity extends AppCompatActivity
         // ==============
         smtpServerList = new HashMap<String, String>();
         smtpServerList.put("zju", "smtp.zju.edu.cn");
+        smtpServerList.put("qq", "smtp.qq.com");
+        pop3ServerList = new HashMap<String, String>();
+        pop3ServerList.put("zju", "pop3.zju.edu.cn");
+        pop3ServerList.put("qq", "imap.qq.com");
 
         // 定义widget的动作
         sendEmailButton.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +93,7 @@ public class MainActivity extends AppCompatActivity
         keys.put("mailbox", mailbox);
         keys.put("passwd", passwd);
         keys.put("smtp", smtpServerList.get(resolve(mailbox)));
+        keys.put("pop3", pop3ServerList.get(resolve(mailbox)));
     }
 
     private String resolve(String mailbox)

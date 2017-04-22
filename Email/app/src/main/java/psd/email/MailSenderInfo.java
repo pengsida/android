@@ -25,8 +25,11 @@ public class MailSenderInfo
     {
         Properties p = new Properties();
         p.put("mail.smtp.host", this.mailServerHost);
+        if (this.mailServerHost.equals("smtp.qq.com"))
+            this.mailServerPort = "587";
         p.put("mail.smtp.port", this.mailServerPort);
         p.put("mail.smtp.auth", validate ? "true" : "false");
+
         return p;
     }
 
