@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Email</string>
+    <string name="send_email">Send email</string>
+    <string name="receive_email">Mail List</string>
+    <string name="ToAddress">收件人:</string>
+    <string name="FromAddress">发件人:</string>
+    <string name="address_hint">请输入收件人邮箱</string>
+    <string name="subject_hint">请输入主题</string>
+    <string name="Subject">主&#160;&#160;&#160;&#160;题:</string>
+</resources>
